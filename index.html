@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="W-Encrypt: Secure your messages with the Walar language encryption. Speak through code.">
+  <title>W-Encrypt - The Ultimate Shield</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Background Particles -->
+  <div id="particles-js"></div>
+
+  <!-- Navigation Bar -->
+  <header>
+    <nav>
+      <div class="logo">W-Encrypt</div>
+      <div class="hamburger" aria-label="Toggle Menu">☰</div>
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#encrypt">Encrypt/Decrypt</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Home Section -->
+  <section id="home">
+    <div class="home-content">
+      <h1>W-Encrypt</h1>
+      <p class="slogan">Speak Through Code | Secure Your Secrets</p>
+      <div class="button-group">
+        <button class="cta-button primary" onclick="scrollToSection('#encrypt')">Start Encrypting</button>
+        <button class="cta-button secondary" onclick="scrollToSection('#about')">Learn More</button>
+      </div>
+      <p class="subtext">Powered by the Walar language, W-Encrypt transforms your messages into unbreakable code. Founded on privacy and innovation by the W Commonwealth.</p>
+    </div>
+  </section>
+
+  <!-- Encrypt/Decrypt Section -->
+  <section id="encrypt">
+    <h2>Encrypt or Decrypt Your Message</h2>
+    <p>Enter your text below. Ignore case—everything is handled in lowercase. Unmapped characters remain unchanged.</p>
+    <textarea id="input-text" placeholder="Enter your message here..." aria-label="Input Message" required></textarea>
+    <div class="button-group">
+      <button type="button" class="cta-button primary" onclick="processText('encrypt')">Encrypt</button>
+      <button type="button" class="cta-button secondary" onclick="processText('decrypt')">Decrypt</button>
+    </div>
+    <textarea id="output-text" placeholder="Result will appear here..." aria-label="Output Message" readonly></textarea>
+    <button type="button" class="cta-button tertiary" onclick="copyOutput()">Copy to Clipboard</button>
+  </section>
+
+  <!-- About Section -->
+  <section id="about">
+    <h2>About W-Encrypt</h2>
+    <p>W-Encrypt is built on the Walar language, invented by Vlad and Victor. It replaces letters with unique symbols for privacy. Decryption reverses the process exactly.</p>
+    <p>Mapping (lowercase only): a-x, b-3, c-2, d-o, e-#, f-k, g-e, h-!, i-1, j-y, k-9, l-8, m-7, n-%, o-0, p-$, q-l, r-s, s-r, t-n, u-v, v-u, w-4, x-;, y-6, z-., space-c</p>
+    <button class="cta-button tertiary" onclick="scrollToSection('#encrypt')">Try It Now</button>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollToPlugin.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

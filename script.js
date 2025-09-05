@@ -49,6 +49,12 @@ function processText(mode) {
   document.getElementById('output-text').value = output;
 }
 
+// Clear Text Function
+function clearText() {
+  document.getElementById('input-text').value = '';
+  document.getElementById('output-text').value = '';
+}
+
 // Copy Output Function
 function copyOutput() {
   const outputText = document.getElementById('output-text');
@@ -119,16 +125,15 @@ function initAnimations() {
 // Hamburger Menu
 document.querySelector(".hamburger").addEventListener("click", () => {
   const navLinks = document.querySelector(".nav-links");
+  navLinks.classList.toggle("show");
   if (navLinks.classList.contains("show")) {
+    gsap.fromTo(navLinks, { x: "-100%" }, { x: "0%", duration: 0.5, ease: "power2.out" });
+  } else {
     gsap.to(navLinks, { 
       x: "-100%", 
       duration: 0.5, 
-      ease: "power2.in", 
-      onComplete: () => navLinks.classList.remove("show") 
+      ease: "power2.in"
     });
-  } else {
-    navLinks.classList.add("show");
-    gsap.fromTo(navLinks, { x: "-100%" }, { x: "0%", duration: 0.5, ease: "power2.out" });
   }
 });
 

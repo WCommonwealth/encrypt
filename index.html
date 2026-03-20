@@ -4,66 +4,246 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="W-Encrypt: Secure your messages with the Walar language encryption. Speak through code.">
-  <title>W-Encrypt - The Ultimate Shield</title>
-  <link rel="stylesheet" href="styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <title>W-Encrypt — Walar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --glass-bg: rgba(255,255,255,0.07);
+      --glass-border: rgba(255,255,255,0.14);
+      --glass-highlight: rgba(255,255,255,0.22);
+      --accent: #3ecfff;
+      --accent2: #a78bfa;
+      --accent3: #34d399;
+      --text-primary: rgba(255,255,255,0.95);
+      --text-secondary: rgba(255,255,255,0.55);
+      --text-muted: rgba(255,255,255,0.3);
+      --bg-deep: #050810;
+      --font-main: 'Space Grotesk', sans-serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { font-family:var(--font-main); background:var(--bg-deep); color:var(--text-primary); min-height:100vh; overflow-x:hidden; }
+
+    .bg-canvas { position:fixed; inset:0; z-index:0; overflow:hidden; }
+    .bg-canvas::before { content:''; position:absolute; inset:0; background: radial-gradient(ellipse 80% 60% at 20% 10%, rgba(62,207,255,0.12) 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 80% 80%, rgba(167,139,250,0.10) 0%, transparent 60%), radial-gradient(ellipse 40% 40% at 50% 50%, rgba(52,211,153,0.05) 0%, transparent 70%); }
+    .bg-grid { position:absolute; inset:0; background-image:linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px, transparent 1px); background-size:60px 60px; }
+    .orb { position:absolute; border-radius:50%; filter:blur(80px); animation:drift 20s ease-in-out infinite; }
+    .orb-1 { width:500px;height:500px;background:radial-gradient(circle,rgba(62,207,255,0.15),transparent);top:-100px;left:-100px; }
+    .orb-2 { width:400px;height:400px;background:radial-gradient(circle,rgba(167,139,250,0.12),transparent);bottom:-80px;right:-80px;animation-delay:-7s; }
+    .orb-3 { width:300px;height:300px;background:radial-gradient(circle,rgba(52,211,153,0.10),transparent);top:50%;left:60%;animation-delay:-14s; }
+    @keyframes drift { 0%,100%{transform:translate(0,0) scale(1);} 33%{transform:translate(40px,-30px) scale(1.05);} 66%{transform:translate(-20px,40px) scale(0.95);} }
+
+    /* NAV */
+    nav { position:fixed;top:0;left:0;right:0;z-index:100;padding:0 32px;height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(5,8,16,0.75);backdrop-filter:blur(24px) saturate(180%);border-bottom:1px solid var(--glass-border); }
+    .nav-logo { display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px;letter-spacing:0.04em; }
+    .nav-logo-icon { width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:14px;font-family:var(--font-mono);font-weight:700;color:#000; }
+    .nav-label { font-family:var(--font-mono);font-size:11px;color:var(--accent);letter-spacing:0.15em;text-transform:uppercase;padding:3px 8px;border:1px solid rgba(62,207,255,0.3);border-radius:4px;background:rgba(62,207,255,0.05); }
+    .nav-back { font-family:var(--font-mono);font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-muted);text-decoration:none;transition:color 0.2s; }
+    .nav-back:hover { color:var(--accent); }
+
+    /* HERO */
+    .hero { position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:100px 40px 60px;text-align:center; }
+    .hero-eyebrow { font-family:var(--font-mono);font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:var(--accent);margin-bottom:24px;opacity:0;animation:fadeUp 0.8s ease forwards 0.2s;display:flex;align-items:center;gap:10px; }
+    .hero-eyebrow::before { content:'';width:40px;height:1px;background:linear-gradient(90deg,transparent,var(--accent)); }
+    .hero-eyebrow::after { content:'';width:40px;height:1px;background:linear-gradient(90deg,var(--accent),transparent); }
+    .hero-title { font-size:clamp(48px,7vw,88px);font-weight:700;line-height:1.05;letter-spacing:-0.03em;margin-bottom:20px;opacity:0;animation:fadeUp 0.9s ease forwards 0.35s; }
+    .hero-title .line-1 { display:block;color:var(--text-primary); }
+    .hero-title .line-2 { display:block;background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 50%,var(--accent3) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text; }
+    .hero-sub { font-size:18px;color:var(--text-secondary);font-weight:300;max-width:500px;line-height:1.6;margin-bottom:48px;opacity:0;animation:fadeUp 0.9s ease forwards 0.5s; }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(24px);} to{opacity:1;transform:translateY(0);} }
+
+    /* ENCRYPT CARD */
+    .encrypt-wrapper { position:relative;z-index:1;width:100%;max-width:800px;opacity:0;animation:fadeUp 1s ease forwards 0.65s; }
+    .encrypt-card {
+      background:var(--glass-bg);border:1px solid var(--glass-border);
+      border-radius:28px;padding:40px;
+      backdrop-filter:blur(40px) saturate(180%);
+      box-shadow:0 0 0 1px rgba(255,255,255,0.05) inset,0 40px 120px rgba(0,0,0,0.5),0 0 60px rgba(62,207,255,0.04);
+      position:relative;overflow:hidden;
+    }
+    .encrypt-card::before { content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--glass-highlight),transparent); }
+
+    .card-title { font-size:18px;font-weight:700;letter-spacing:-0.01em;margin-bottom:24px;display:flex;align-items:center;gap:10px; }
+    .card-title-icon { font-size:20px; }
+
+    /* TEXTAREA */
+    .field-label { font-family:var(--font-mono);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:8px; }
+    .field-textarea {
+      width:100%;padding:16px;
+      background:rgba(255,255,255,0.04);border:1px solid var(--glass-border);
+      border-radius:12px;color:var(--text-primary);
+      font-family:var(--font-mono);font-size:13px;line-height:1.6;
+      resize:vertical;min-height:120px;outline:none;
+      transition:all 0.2s;
+    }
+    .field-textarea::placeholder { color:var(--text-muted); }
+    .field-textarea:focus { border-color:rgba(62,207,255,0.4);background:rgba(62,207,255,0.04);box-shadow:0 0 0 3px rgba(62,207,255,0.08); }
+    .field-textarea[readonly] { border-color:rgba(52,211,153,0.2);background:rgba(52,211,153,0.03); }
+
+    /* DIVIDER */
+    .field-divider { display:flex;align-items:center;gap:12px;margin:20px 0; }
+    .field-divider-line { flex:1;height:1px;background:var(--glass-border); }
+    .field-divider-icon { font-size:18px;opacity:0.5; }
+
+    /* BUTTONS */
+    .btn-row { display:flex;gap:10px;margin:20px 0;flex-wrap:wrap; }
+    .btn {
+      padding:12px 24px;border-radius:10px;border:none;
+      font-family:var(--font-main);font-size:13px;font-weight:600;
+      cursor:pointer;transition:all 0.2s;letter-spacing:0.03em;
+      display:flex;align-items:center;gap:6px;
+    }
+    .btn-encrypt { background:linear-gradient(135deg,var(--accent),var(--accent2));color:#000; }
+    .btn-encrypt:hover { transform:scale(1.03);box-shadow:0 8px 24px rgba(62,207,255,0.3); }
+    .btn-decrypt { background:linear-gradient(135deg,var(--accent2),var(--accent));color:#000; }
+    .btn-decrypt:hover { transform:scale(1.03);box-shadow:0 8px 24px rgba(167,139,250,0.3); }
+    .btn-ghost { background:var(--glass-bg);border:1px solid var(--glass-border);color:var(--text-secondary); }
+    .btn-ghost:hover { background:rgba(255,255,255,0.1);color:var(--text-primary); }
+    .btn-copy { background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.2);color:var(--accent3); }
+    .btn-copy:hover { background:rgba(52,211,153,0.18); }
+
+    /* COPY FEEDBACK */
+    .copy-feedback { font-family:var(--font-mono);font-size:11px;color:var(--accent3);opacity:0;transition:opacity 0.3s;letter-spacing:0.05em; }
+    .copy-feedback.show { opacity:1; }
+
+    /* ABOUT SECTION */
+    .about-section { position:relative;z-index:1;padding:80px 40px;max-width:800px;margin:0 auto;text-align:center; }
+    .about-eyebrow { font-family:var(--font-mono);font-size:11px;letter-spacing:0.25em;color:var(--text-muted);text-transform:uppercase;margin-bottom:32px; }
+    .about-card { background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:28px;padding:48px;backdrop-filter:blur(40px);position:relative;overflow:hidden; }
+    .about-card::before { content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--glass-highlight),transparent); }
+    .about-card h2 { font-size:28px;font-weight:700;letter-spacing:-0.02em;margin-bottom:16px;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text; }
+    .about-card p { font-size:15px;color:var(--text-secondary);line-height:1.75;font-weight:300;margin-bottom:16px; }
+    .mapping-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:8px;margin-top:24px; }
+    .mapping-item { background:rgba(255,255,255,0.04);border:1px solid var(--glass-border);border-radius:8px;padding:8px;text-align:center; }
+    .mapping-key { font-family:var(--font-mono);font-size:14px;font-weight:600;color:var(--accent); }
+    .mapping-arrow { font-size:10px;color:var(--text-muted);margin:2px 0; }
+    .mapping-val { font-family:var(--font-mono);font-size:14px;font-weight:600;color:var(--accent2); }
+
+    footer { position:relative;z-index:1;padding:30px 40px;text-align:center;border-top:1px solid var(--glass-border);font-family:var(--font-mono);font-size:11px;color:var(--text-muted);letter-spacing:0.1em; }
+
+    @media (max-width:768px) { nav{padding:0 20px;} .hero{padding:100px 24px 40px;} .encrypt-card{padding:24px;} .about-card{padding:28px 20px;} .btn-row{flex-direction:column;} .btn{width:100%;justify-content:center;} }
+  </style>
 </head>
 <body>
-  <!-- Background Particles -->
-  <div id="particles-js"></div>
 
-  <!-- Navigation Bar -->
-  <header>
-    <nav>
-      <div class="logo">W-Encrypt</div>
-      <div class="hamburger" aria-label="Toggle Menu">☰</div>
-      <ul class="nav-links">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#encrypt">Encrypt/Decrypt</a></li>
-        <li><a href="#about">About</a></li>
-      </ul>
-    </nav>
-  </header>
+  <div class="bg-canvas">
+    <div class="bg-grid"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
 
-  <!-- Home Section -->
-  <section id="home">
-    <div class="home-content">
-      <h1>W-Encrypt</h1>
-      <p class="slogan">Speak Through Code | Secure Your Secrets</p>
-      <div class="button-group">
-        <button class="cta-button primary" onclick="scrollToSection('#encrypt')">Start Encrypting</button>
-        <button class="cta-button secondary" onclick="scrollToSection('#about')">Learn More</button>
+  <nav>
+    <div class="nav-logo">
+      <div class="nav-logo-icon">W</div>
+      <span>Walar</span>
+      <span class="nav-label">Encrypt</span>
+    </div>
+    <a href="https://wcommonwealth.github.io/test/main.html" class="nav-back">← Command Center</a>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-eyebrow">Speak Through Code</div>
+    <h1 class="hero-title">
+      <span class="line-1">W-Encrypt</span>
+      <span class="line-2">The Ultimate Shield.</span>
+    </h1>
+    <p class="hero-sub">Transform your messages into unbreakable Walar code. Only those who know the language can read what you write.</p>
+
+    <div class="encrypt-wrapper">
+      <div class="encrypt-card">
+        <div class="card-title"><span class="card-title-icon">✍️</span> Input Message</div>
+
+        <label class="field-label">Your text</label>
+        <textarea class="field-textarea" id="input-text" placeholder="Type your message here..."></textarea>
+
+        <div class="btn-row">
+          <button class="btn btn-encrypt" onclick="processText('encrypt')">🔐 Encrypt</button>
+          <button class="btn btn-decrypt" onclick="processText('decrypt')">🔓 Decrypt</button>
+          <button class="btn btn-ghost" onclick="clearText()">✕ Clear</button>
+        </div>
+
+        <div class="field-divider">
+          <div class="field-divider-line"></div>
+          <div class="field-divider-icon">↓</div>
+          <div class="field-divider-line"></div>
+        </div>
+
+        <label class="field-label">Result</label>
+        <textarea class="field-textarea" id="output-text" placeholder="Result will appear here..." readonly></textarea>
+
+        <div class="btn-row" style="margin-top:16px;align-items:center;">
+          <button class="btn btn-copy" onclick="copyOutput()">⎘ Copy to Clipboard</button>
+          <span class="copy-feedback" id="copyFeedback">Copied!</span>
+        </div>
       </div>
-      <p class="subtext">Powered by the Walar language, W-Encrypt transforms your messages into unbreakable code. Founded on privacy and innovation by the W Commonwealth.</p>
     </div>
   </section>
 
-  <!-- Encrypt/Decrypt Section -->
-  <section id="encrypt">
-    <h2>Encrypt or Decrypt Your Message</h2>
-    <p>Enter your text below. Ignore case—everything is handled in lowercase. Unmapped characters remain unchanged.</p>
-    <textarea id="input-text" placeholder="Enter your message here..." aria-label="Input Message" required></textarea>
-    <div class="button-group">
-      <button type="button" class="cta-button primary" onclick="processText('encrypt')">Encrypt</button>
-      <button type="button" class="cta-button secondary" onclick="processText('decrypt')">Decrypt</button>
-      <button type="button" class="cta-button tertiary" onclick="clearText()">Clear</button>
+  <section class="about-section">
+    <div class="about-eyebrow">How it works</div>
+    <div class="about-card">
+      <h2>About W-Encrypt</h2>
+      <p>W-Encrypt is built on the Walar language, invented by Vlad and Victor. Each character is mapped to a unique symbol — encrypt your message and only those with the key can decipher it. Decryption reverses the process exactly.</p>
+      <p>All processing happens locally in your browser — nothing is ever sent to a server.</p>
+      <div class="mapping-grid" id="mappingGrid"></div>
     </div>
-    <textarea id="output-text" placeholder="Result will appear here..." aria-label="Output Message" readonly></textarea>
-    <button type="button" class="cta-button tertiary" onclick="copyOutput()">Copy to Clipboard</button>
   </section>
 
-  <!-- About Section -->
-  <section id="about">
-    <h2>About W-Encrypt</h2>
-    <p>W-Encrypt is built on the Walar language, invented by Vlad and Victor. It replaces letters with unique symbols for privacy. Decryption reverses the process exactly.</p>
-    <p>Mapping (lowercase only): a-!, b-@, c-#, d-$, e-%, f-^, g-&, h-*, i-(, j-), k--, l-_, m-=, n-+, o-[, p-], q-{, r-}, s-\, t-|, u-;, v-:, w-', x-", y-,, z-., space-/</p>
-    <button class="cta-button tertiary" onclick="scrollToSection('#encrypt')">Try It Now</button>
-  </section>
+  <footer>© WALAR ORGANIZATION · CLASSIFIED · TRANSYLVANIA, RO</footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollToPlugin.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
-  <script src="script.js"></script>
+  <script>
+    const encryptMap = {
+      'a':'q','b':'w','c':'e','d':'r','e':'t','f':'y','g':'u','h':'i','i':'o','j':'p',
+      'k':'a','l':'s','m':'d','n':'f','o':'g','p':'h','q':'j','r':'k','s':'l','t':'z',
+      'u':'x','v':'c','w':'v','x':'b','y':'n','z':'m',
+      '0':'!','1':'@','2':'#','3':'$','4':'%','5':'^','6':'&','7':'*','8':'(','9':')',
+      ' ':'0','!':'_','@':'=','#':'+','$':'[','%':']','^':'{','&':'}','*':'\\','(':
+      '|',')':';','-':':','_':"'","=":'"','+':',','[':'.','<':'7','>':'8','`':'9',
+      ']':'<','{':'>','}':'?','\\':'/','|':'~',';':'`',':':'-',"'":'1','"':'2',
+      ',':'3','.':'4','/':'5','?':'6','~':' '
+    };
+
+    const decryptMap = {};
+    for (let key in encryptMap) decryptMap[encryptMap[key]] = key;
+
+    function processText(mode) {
+      const input = document.getElementById('input-text').value.toLowerCase();
+      let output = '';
+      for (let char of input) {
+        if (mode === 'encrypt') output += encryptMap[char] || char;
+        else output += decryptMap[char] || char;
+      }
+      document.getElementById('output-text').value = output;
+    }
+
+    function clearText() {
+      document.getElementById('input-text').value = '';
+      document.getElementById('output-text').value = '';
+    }
+
+    function copyOutput() {
+      const val = document.getElementById('output-text').value;
+      if (!val) return;
+      navigator.clipboard.writeText(val).then(() => {
+        const fb = document.getElementById('copyFeedback');
+        fb.classList.add('show');
+        setTimeout(() => fb.classList.remove('show'), 2000);
+      });
+    }
+
+    // Render mapping grid
+    const grid = document.getElementById('mappingGrid');
+    const letters = 'abcdefghijklmnopqrstuvwxyz';
+    for (let ch of letters) {
+      if (encryptMap[ch]) {
+        const item = document.createElement('div');
+        item.className = 'mapping-item';
+        item.innerHTML = `<div class="mapping-key">${ch}</div><div class="mapping-arrow">↓</div><div class="mapping-val">${encryptMap[ch]}</div>`;
+        grid.appendChild(item);
+      }
+    }
+  </script>
 </body>
 </html>
